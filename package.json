@@ -1,0 +1,23 @@
+{
+  "name": "build-game",
+  "version": "1.0.0",
+  "description": "fox-game-tamagochi",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "parcel": "^2.10.3",
+    "prettier": "^2.8.3"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "dependencies": {
+    "parcel": "^2.10.3"
+  }
+}
