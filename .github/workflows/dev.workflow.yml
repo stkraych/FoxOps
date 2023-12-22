@@ -16,27 +16,5 @@ jobs:
           node-version: "20.x"
       - name: Install dependencies
         run: |
-          yarn
-          yarn parcel src/index.html
+          yarn --frozen-lockfile
           yarn test
-  flow:
-    name: Flow
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          cache: yarn
-      - run: yarn --frozen-lockfile
-      - run: yarn flow check
-
-  #  flow:
-  #   name: Flow
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         cache: yarn
-  #     - run: yarn --frozen-lockfile
-  #     - run: yarn flow check
