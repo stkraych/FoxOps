@@ -19,9 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-      - name: Install dependencies
-        run: npm build --if-present
-
       - name: Build and run Parcel in the background
         run: |
           nohup npx parcel build src/index.html > /dev/null 2>&1 &
