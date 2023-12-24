@@ -19,16 +19,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.x"
-      - name: Build and run Parcel in the background
-        run: |
-          nohup npx parcel build src/index.html > /dev/null 2>&1 &
-          echo $! > .pidfile
-
-      - name: Wait for Parcel to finish
-        run: wait $(cat .pidfile)
-
-      - name: Clean up
-        run: rm .pidfile
-  # Test:
-  #   runs-on: ubuntu-latest
-  #   needs: [Checkout, Build]
+      - name: Install dependencies
+        run: npm install
+  Test:
+    runs-on: ubuntu-latest
+    needs: [Checkout, Build]
+    steps:
+      - name: Run prettier
+        run: npm run prettier
