@@ -27,5 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Checkout, Build]
     steps:
+      - name: Run Jest Test
+        run: npm test
       - name: Run prettier
         run: npm run prettier
