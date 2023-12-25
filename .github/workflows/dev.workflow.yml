@@ -23,11 +23,11 @@ jobs:
         run: |
           nohup npx parcel build src/index.html > /dev/null 2>&1 &
           echo $! > .pidfile
-      - name: Run Jest Test
-        run: npm run test
   Test:
     runs-on: ubuntu-latest
     needs: [Checkout, Build]
     steps:
+      - name: Run Jest Test
+        run: npm run test
       - name: Run prettier
         run: npm run prettier
