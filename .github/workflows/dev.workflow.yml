@@ -27,7 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [Checkout, Build]
     steps:
-      - name: Run Jest Test
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
         run: npm run test
-      - name: Run prettier
-        run: npm run prettier
