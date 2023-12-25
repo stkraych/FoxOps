@@ -1,6 +1,7 @@
 {
   "name": "build-game",
   "version": "1.0.0",
+  "type": "module",
   "description": "fox-game-tamagochi",
   "main": "index.js",
   "scripts": {

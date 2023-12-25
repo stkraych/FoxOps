@@ -28,4 +28,4 @@ jobs:
     needs: [Checkout, Build]
     steps:
       - name: Run tests
-        run: npm run test -- --passWithNoTests
+        run: npm run test
