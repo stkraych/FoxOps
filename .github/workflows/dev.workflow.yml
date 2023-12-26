@@ -50,5 +50,3 @@ jobs:
         with:
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           token: ${{ secrets.MY_TOKEN }}
-        env:
-          GITHUB_REPOSITORY: stkraych/FoxOps
