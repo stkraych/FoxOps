@@ -45,12 +45,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
+          persist-credentials: false
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --write **/*.{js,md}
+          only_changed: True
+          # Set your custom token
+          github_token: ${{ secrets.MY_TOKEN }}
 
   # Release:
   #   runs-on: ubuntu-latest
