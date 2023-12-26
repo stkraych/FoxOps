@@ -57,7 +57,7 @@ jobs:
   #         # Set your custom token
   #         github_token: ${{ secrets.MY_TOKEN }}
 
-  format:
+  Format:
     runs-on: ubuntu-latest
     needs: [Checkout, Build, Test]
     steps:
@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: "20.x"
       - run: npm ci
-      - run: npm run format
+      - run: npm run prettier --write .
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
