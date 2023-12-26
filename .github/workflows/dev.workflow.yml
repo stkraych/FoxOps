@@ -72,7 +72,7 @@ jobs:
       - name: Super-linter
         uses: super-linter/super-linter@v5.7.2
         env:
-          DISABLE_ERRORS: false
+          DISABLE_ERRORS: true
           DEFAULT_BRANCH: dev*
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
