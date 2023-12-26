@@ -38,28 +38,28 @@ jobs:
       - name: Run  Jest test
         run: npm test
 
-  # Prettier:
-  #   runs-on: ubuntu-latest
-  #   needs: [Checkout, Build, Test]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #         ref: ${{ github.head_ref }}
-  #         persist-credentials: false
+  Lint:
+    name: Lint
+    runs-on: ubuntu-latest
 
-  #     - name: Prettify code
-  #       uses: creyD/prettier_action@v4.3
-  #       with:
-  #         prettier_options: --write **/*.{js,md}
-  #         only_changed: True
-  #         # Set your custom token
-  #         github_token: ${{ secrets.MY_TOKEN }}
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v5.7.2
+        env:
+          DEFAULT_BRANCH: dev*
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
   Format:
     runs-on: ubuntu-latest
-    needs: [Checkout, Build, Test]
+    needs: [Checkout, Build, Test, Lint]
     steps:
       - uses: actions/checkout@v4
         with:
