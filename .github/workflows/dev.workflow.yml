@@ -73,6 +73,7 @@ jobs:
         uses: super-linter/super-linter@v5.7.2
         env:
           DISABLE_ERRORS: true
+          IGNORE_GITIGNORED_FILES: true
           DEFAULT_BRANCH: dev*
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
