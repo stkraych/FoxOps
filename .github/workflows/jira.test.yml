@@ -1,6 +1,9 @@
-on: push
-
-name: Jira Example
+name: Test Jira flow
+on:
+  pull_request:
+  push:
+    branches:
+      - dev*
 
 jobs:
   build:

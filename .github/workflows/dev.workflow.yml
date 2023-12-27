@@ -50,27 +50,27 @@ jobs:
         with:
           commit_message: Apply formatting changes
           branch: ${{ github.head_ref }}
-  Lint:
-    name: Lint
-    needs: [Build, Test, Format]
-    runs-on: ubuntu-latest
+  # Lint:
+  #   name: Lint
+  #   needs: [Build, Test, Format]
+  #   runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: read
-      statuses: write
+  #   permissions:
+  #     contents: read
+  #     packages: read
+  #     statuses: write
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Super-linter
-        uses: super-linter/super-linter@v5.7.2
-        env:
-          DISABLE_ERRORS: true
-          IGNORE_GITIGNORED_FILES: true
-          DEFAULT_BRANCH: dev*
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+  #     - name: Super-linter
+  #       uses: super-linter/super-linter@v5.7.2
+  #       env:
+  #         DISABLE_ERRORS: true
+  #         IGNORE_GITIGNORED_FILES: true
+  #         DEFAULT_BRANCH: dev*
+  #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
 
   # Release:
   #   runs-on: ubuntu-latest
