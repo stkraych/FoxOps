@@ -73,6 +73,13 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tamago-app:latest
+      - name: Set up Docker Compose
+        run: sudo apt install -y docker-compose
+      - name: Build and Run Docker Compose
+        run: |
+          docker-compose up --build -d 
+          docker container ls
+
 #   # Release:
 #   #   runs-on: ubuntu-latest
 #   #   steps:
