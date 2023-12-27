@@ -1,47 +1,24 @@
-name: Test workflow for Jira
+on: push
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - dev**
+name: Jira Example
 
 jobs:
-  deploy:
-    name: Deploy my app
-
+  build:
     runs-on: ubuntu-latest
-
+    name: Jira Example
     steps:
-      - uses: actions/checkout@v1
+      - name: Login
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
-      - uses: chrnorm/deployment-action@v2
-        name: Create GitHub deployment
-        id: deployment
+      - name: Jira TODO
+        uses: atlassian/gajira-todo@v3
         with:
-          token: "${{ github.token }}"
-          environment-url: http://my-app-url.com
-          environment: production
-
-      - name: Deploy my app
-        run: |
-          # add your deployment code here
-
-      - name: Update deployment status (success)
-        if: success()
-        uses: chrnorm/deployment-status@v2
-        with:
-          token: "${{ github.token }}"
-          environment-url: ${{ steps.deployment.outputs.environment_url }}
-          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
-          state: "success"
-
-      - name: Update deployment status (failure)
-        if: failure()
-        uses: chrnorm/deployment-status@v2
-        with:
-          token: "${{ github.token }}"
-          environment-url: ${{ steps.deployment.outputs.environment_url }}
-          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
-          state: "failure"
+          project: GA
+          issuetype: Task
+          description: Created automatically via GitHub Actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
