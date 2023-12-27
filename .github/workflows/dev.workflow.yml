@@ -82,18 +82,6 @@ jobs:
         env:
           TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Run Trivy vulnerability scanner fot Image
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
-          format: "table"
-          exit-code: "0"
-          scan-type: image
-          output: trivy-results.sarif
-          scan-ref: ""
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL,HIGH"
       - name: Set up Docker Compose
         run: sudo apt install -y docker-compose
       - name: Build and Run Docker Compose
