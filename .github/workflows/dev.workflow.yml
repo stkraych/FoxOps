@@ -73,15 +73,6 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
-      # - name: Run Trivy vulnerability scanner fot Image
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
-      #     format: "table"
-      #     exit-code: "0"
-      #     ignore-unfixed: true
-      #     vuln-type: "os,library"
-      #     severity: "CRITICAL,HIGH"
       - name: Scnan DockerHub registry Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -91,10 +82,18 @@ jobs:
         env:
           TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Run Trivy vulnerability scanner fot Image
+        uses: aquasecurity/trivy-action@master
         with:
-          sarif_file: "trivy-results.sarif"
+          image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
+          format: "table"
+          exit-code: "0"
+          scan-type: image
+          output: trivy-results.sarif
+          scan-ref: ""
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
       - name: Set up Docker Compose
         run: sudo apt install -y docker-compose
       - name: Build and Run Docker Compose
