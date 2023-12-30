@@ -3,3 +3,25 @@ node_modules/
 dist/
 .parcel-cache/
 .vscode/
+**/.terraform/*
+
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+*.tfvars
+*.tfvars.json
+
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+.terraformrc
+terraform.rc
+Key points
