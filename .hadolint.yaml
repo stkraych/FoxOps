@@ -1,0 +1,10 @@
+ignored:
+  - DL3006
+  - DL4000
+  - DL4006
+  - DL3018
+
+trustedRegistries:
+  - docker.io
+  - my-company.com:5000
+  - "*.gcr.io"
