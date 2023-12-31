@@ -21,6 +21,15 @@ jobs:
           nohup npx parcel build src/index.html > /dev/null 2>&1 &
           echo $! > .pidfile
 
+  Add-Contributer-readme:
+      runs-on: ubuntu-latest
+      name: A job to automate contrib in readme
+      steps:
+        - name: Contribute List
+          uses: akhilmhdh/contributors-readme-action@v2.3.6
+          env:
+            GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+
   # Test:
   #   runs-on: ubuntu-latest
   #   needs: Build
