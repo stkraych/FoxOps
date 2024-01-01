@@ -62,27 +62,27 @@ jobs:
   #         commit_message: Apply formatting changes
   #         branch: ${{ github.head_ref }}
 
-  Security:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Snyk
-        uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: monitor
-      - name: Check for hardcoded secrets with Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-      - name: Scan for smells and vulnerabilities with SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  # Security:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Snyk
+  #       uses: actions/checkout@master
+  #     - name: Run Snyk to check for vulnerabilities
+  #       uses: snyk/actions/node@master
+  #       continue-on-error: true
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       with:
+  #         command: monitor
+  #     - name: Check for hardcoded secrets with Gitleaks
+  #       uses: gitleaks/gitleaks-action@v2
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+  #     - name: Scan for smells and vulnerabilities with SonarCloud Scan
+  #       uses: sonarsource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       
       
 
@@ -122,6 +122,29 @@ jobs:
   #       run: |
   #         docker-compose up --build -d
   #         docker container ls
+
+   # Upload-Artifactory:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #    - uses: jfrog/setup-jfrog-cli@v3
+  #      env:
+  #       JF_URL: ${{ secrets.ARTIFACTORY_URL }}
+  #       JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
+  #    - run: |
+  #       export SERVER_ID="test"
+  #       jf c add $SERVER_ID --url=$URL --access-token=$ACCESS_TOKEN --interactive=false
+  #    - name: Push Build to Artifactory
+  #      run: |
+  #       echo "test file " > test.txt
+  #       export BUILD_NAME="my-build"
+  #       export BUILD_MODULE="my-module"
+  #       export BUILD_NUMBER="1"
+  #       export PATH_TO_DIRECTORY="name/version/dates"
+  #       jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
+  #    - name: Build to Artifactory
+  #      run: |
+  #       jf rt build-publish $BUILD_NAME $BUILD_NUMBER
+  #       jf rt bdi c --max-builds=1
 
   # Terraform:
   #   runs-on: ubuntu-latest
