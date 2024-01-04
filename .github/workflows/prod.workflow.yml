@@ -131,6 +131,10 @@ jobs:
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
      - run: |
         jf rt ping
+     - run: |
+        jf rt dl artifacts/
+        jf rt u aether artifacts/
+        jf rt bp
   
 
   # Terraform:
