@@ -125,6 +125,8 @@ jobs:
      runs-on: ubuntu-latest
      steps:
      - uses: jfrog/setup-jfrog-cli@v3
+       with:
+        version: latest
      - run: jf --version
        env:
           JF_URL: ${{ secrets.JF_URL }}
