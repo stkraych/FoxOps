@@ -125,13 +125,13 @@ jobs:
      runs-on: ubuntu-latest
      steps:
      - uses: jfrog/setup-jfrog-cli@v3
-     - run: jf --version
-    #  env:
-    #  JF_URL: ${{ secrets.JF_URL }}
-    #  JF_USER: ${{ secrets.JF_USER }}
-    #  JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-    # - run: |
-    #   jf rt ping
+     - run: jf --version"
+       env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+     - run: |
+        jf rt ping
+  
 
   # Terraform:
   #   runs-on: ubuntu-latest
