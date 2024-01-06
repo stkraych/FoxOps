@@ -6,6 +6,11 @@ on:
   push:
     branches:
       - dev*
+      - feature*
+      - fix*
+      - test*
+      - stage*
+      - bug*
 
 jobs:
   Build:
