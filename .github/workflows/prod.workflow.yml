@@ -122,20 +122,38 @@ jobs:
   #         docker container ls
 
    Upload-Artifactory:
-     runs-on: ubuntu-latest
-     steps:
-     - uses: jfrog/setup-jfrog-cli@v3
-       with:
-        version: latest
-     - run: jf --version
-       env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-     - run: |
-        jf rt dl artifacts/
-        jf rt u aether artifacts/
-        jf rt bp
-  
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-without-markdown
+          path: |
+            dist
+            !dist/**/*.md
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: output/test/code-coverage.html
+            
+    #  runs-on: ubuntu-latest
+    #  steps:
+    #  - name: Checkout code
+    #    uses: actions/checkout@v4
+    #  - uses: jfrog/setup-jfrog-cli@v3
+    #    with:
+    #     version: latest
+    #  - run: jf --version
+    #    env:
+    #       JF_URL: ${{ secrets.JF_URL }}
+    #       JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+    #  - name: Set up JFrog CLI
+    #    run: |
+    #       curl  ${{ secrets.JF_URL }} | sh
+    #       export PATH=$PATH:/path/to/jfrog/cli
 
   # Terraform:
   #   runs-on: ubuntu-latest
