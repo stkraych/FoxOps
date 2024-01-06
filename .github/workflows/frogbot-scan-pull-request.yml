@@ -16,4 +16,5 @@ jobs:
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.MY_TOKEN }}
           JF_INSTALL_DEPS_CMD: "npm install"
-          JF_WORKING_DIR: ./
+          JF_REQUIREMENTS_FILE: "package.json"
+
