@@ -7,18 +7,18 @@ on:
       - main
 
 jobs:
-  # Build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "20.x"
-  #     - name: Build and run Parcel in the background
-  #       run: |
-  #         nohup npx parcel build src/index.html > /dev/null 2>&1 &
-  #         echo $! > .pidfile
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Build and run Parcel in the background
+        run: |
+          nohup npx parcel build src/index.html > /dev/null 2>&1 &
+          echo $! > .pidfile
 
   # Add-Contributer-readme:
   #     runs-on: ubuntu-latest
@@ -119,39 +119,24 @@ jobs:
   #         docker-compose up --build -d
   #         docker container ls
 
-  Upload-Artifactory:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-mapping-artefact
-          path: |
-            dist
-            !dist/**/*.map
-          compression-level: 3
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-mapping-artefact
-      - name: Display structure of downloaded files
-        run: ls -R
-    #  runs-on: ubuntu-latest
-    #  steps:
-    #  - name: Checkout code
-    #    uses: actions/checkout@v4
-    #  - uses: jfrog/setup-jfrog-cli@v3
-    #    with:
-    #     version: latest
-    #  - run: jf --version
-    #    env:
-    #       JF_URL: ${{ secrets.JF_URL }}
-    #       JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-    #  - name: Set up JFrog CLI
-    #    run: |
-    #       curl  ${{ secrets.JF_URL }} | sh
-    #       export PATH=$PATH:/path/to/jfrog/cli
+  # Upload-Artifactory:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #     - name: Archive production artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: dist-mapping-artefact
+  #         path: |
+  #           dist
+  #           !dist/**/*.map
+  #         compression-level: 3
+  #     - uses: actions/download-artifact@v4
+  #       with:
+  #         name: dist-mapping-artefact
+  #     - name: Display structure of downloaded files
+  #       run: ls -R
 
   # Terraform:
   #   runs-on: ubuntu-latest
