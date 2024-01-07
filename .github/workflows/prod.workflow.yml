@@ -41,19 +41,19 @@ jobs:
     environment: Production
     needs: [Build, Test]
     steps:
-      - uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
-      - uses: actions/setup-node@v4
+          persist-credentials: false
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
         with:
-          node-version: "20.x"
-      - run: npm ci
-      - run: npm run format
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply formatting changes
-          branch: ${{ github.head_ref }}
+          prettier_options: --write **/*.{js,md}
+          only_changed: True
+          github_token: ${{ secrets.MY_TOKEN }}
 
   Security:
     runs-on: ubuntu-latest
