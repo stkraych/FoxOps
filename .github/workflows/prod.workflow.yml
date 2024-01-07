@@ -38,7 +38,7 @@ jobs:
 
   Format:
     runs-on: ubuntu-latest
-  environment: Production
+    environment: Production
     needs: [Build, Test]
     steps:
       - uses: actions/checkout@v4
@@ -81,8 +81,8 @@ jobs:
 
   Container:
     runs-on: ubuntu-latest
-    needs: [Build, Test,Format, Security]
-  environment: Production
+    needs: [Build, Test, Format, Security]
+    environment: Production
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -119,7 +119,7 @@ jobs:
 
   Upload-Artifactory:
     runs-on: ubuntu-latest
-    needs: [Build, Test,Format, Security, Container]
+    needs: [Build, Test, Format, Security, Container]
     environment: Production
     steps:
       - name: Checkout code
@@ -149,10 +149,10 @@ jobs:
   #        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
 Add-Contributer-readme:
-    runs-on: ubuntu-latest
-    environment: Production
-    steps:
-      - name: Contribute List
-        uses: akhilmhdh/contributors-readme-action@v2.3.6
-        env:
-         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+  runs-on: ubuntu-latest
+  environment: Production
+  steps:
+    - name: Contribute List
+      uses: akhilmhdh/contributors-readme-action@v2.3.6
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
