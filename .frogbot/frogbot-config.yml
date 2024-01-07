@@ -8,6 +8,8 @@
         - dev*
         - bug-fix*
         - test*
+        - "feature*"
+
       branchNameTemplate: "frogbot-${IMPACTED_PACKAGE}-${BRANCH_NAME_HASH}"
       commitMessageTemplate: "Upgrade ${IMPACTED_PACKAGE} to ${FIX_VERSION}"
       pullRequestTitleTemplate: "[🐸 Frogbot] Upgrade ${IMPACTED_PACKAGE} to ${FIX_VERSION}"
