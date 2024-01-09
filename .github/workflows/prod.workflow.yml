@@ -140,6 +140,9 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     environment: Production
+    defaults:
+      run:
+        working-directory: terraform
     env:
       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
@@ -149,8 +152,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Go into Terraform directory
-        run: cd terraform
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
