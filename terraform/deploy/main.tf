@@ -30,7 +30,7 @@ resource "aws_instance" "my_aws_instance" {
 
 resource "aws_key_pair" "webserver-key" {
   key_name   = "webserver-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("/home/runner/.ssh/id_rsa.pub")
 }
 
 output "Webserver-Public-IP" {
