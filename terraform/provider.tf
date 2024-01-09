@@ -7,20 +7,23 @@ terraform {
       version = ">= 5.0"
     }
   }
+
+    backend "s3" {
+    bucket         	   = "my-bucket-1234d"
+    key              	   = "state/terraform.tfstate"
+    region         	   = "us-east-1"
+    encrypt        	   = true
+    dynamodb_table = "my_dynamo"
+  }
 }
 
-provider "aws" {
-  region = "us-east-1"
-  access_key = ""
-  secret_key = ""
-
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "example-bucket-1239y37"
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket = "my-state-bucket"
-#     key    = "terraform/terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
+resource "aws_s3_bucket_acl" "example" {
+  bucket = aws_s3_bucket.my_bucke
+  acl    = "private"
+}
+
 
