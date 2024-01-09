@@ -142,7 +142,7 @@ jobs:
     environment: Production
     defaults:
       run:
-        working-directory: terraform
+        working-directory: terraform/deploy
     env:
       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
@@ -173,9 +173,10 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
-      - name: Terraform destroy
-        id: destroy
-        run: terraform destroy -auto-approve
+
+      # - name: Terraform destroy
+      #   id: destroy
+      #   run: terraform destroy -auto-approve
 
     # Add-Contributer-readme:
     #   runs-on: ubuntu-latest
