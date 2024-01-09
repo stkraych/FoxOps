@@ -152,6 +152,8 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
+      - name: Generate SSH key
+        run: ssh-keygen -t rsa
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
