@@ -153,7 +153,7 @@ jobs:
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
       - name: Generate SSH key
-        run: ssh-keygen -t rsa -b 4096
+        run: ssh-keygen -t rsa -b 4096 /home/runner/.ssh/id_rsa
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
