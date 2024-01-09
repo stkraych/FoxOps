@@ -4,33 +4,37 @@ Final project for Telerik Academy
 
 ## Project map
 
-.
 ├── .editorconfig
-├── .github/
-│ ├── workflows/
-│ │ ├── prod.workflow.yml
-│ │ └── dev.workflow.yml
-│ └── ...
-├── .gitignore
-├── .markdownlint.json
-├── .parcel-cache
+├── .github
+│   └── workflows
+| ├── dev.workflow.yml
+│   └── prod.workflow.yml
+│── .markdownlint.json
+├── dist/
+├── node_modules/
+├── .parcel-cache/
 ├── Dockerfile
-├── LICENSE
-├── README.md
-├── src/
-│ ├── bg/
-│ └── ...
+├── src  
 │ ├── style.css
 │ ├── index.html
 │ ├── init.js
 │ ├── logic.test.py
 │ └── GameRules.md
+├── .editorconfig
+├── .eslintrc.json
 ├── docker-compose.yml
+├── Dockerfile
+├── package.json
+├── package-lock.json
+├── README.md
+├── sonar-project.properties
 └── requirements.txt
 
 ## Project sketch
 
 ## Actions used
 
-Docker
+Test
 [![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
+Scan
+[![Scanned by Frogbot](https://raw.github.com/jfrog/frogbot/master/images/frogbot-badge.svg)](https://docs.jfrog-applications.jfrog.io/jfrog-applications/frogbot)
