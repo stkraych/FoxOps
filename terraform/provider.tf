@@ -18,12 +18,8 @@ terraform {
 }
 
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "example-bucket-1239y37"
+  bucket = "example-bucket-1239y37-cat"
 }
 
-resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.my_bucket.id
-  acl    = "private"
-}
 
 
