@@ -9,7 +9,7 @@ resource "aws_lb" "load_balancer" {
 
   enable_deletion_protection = false
   tags = {
-    name = "load-balancer"
+    Name = "load-balancer"
   }
 }
 
@@ -36,9 +36,3 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-# # Create a Load Balancer Target -----------------------------------------------
-# resource "aws_lb_target_group_attachment" "test" {
-#   target_group_arn = aws_lb_target_group.alb-target.arn
-#   target_id        = aws_autoscaling_group.asg-to.id
-#   port             = 80
-# }

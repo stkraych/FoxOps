@@ -12,9 +12,9 @@ resource "aws_instance" "my_aws_instance" {
       "sudo amazon-linux-extras install docker -y",
       "sudo service docker start",
       "sudo usermod -a -G docker ec2-user",
-      "sudo docker login -u seeshellol -p metropolis",
-      "sudo docker pull seeshellol/tamago-app:ea8c4d7f61f676231ad77a1a8adc09f134e2d12a",
-      "sudo docker run -d -p 8000:1234 seeshellol/tamago-app:ea8c4d7f61f676231ad77a1a8adc09f134e2d12a",
+      "sudo docker login -u ${github.DOCKERHUB_USERNAME} -p ${github.DOCKERHUB_PASSWORD}",
+      "sudo docker pull ${github.DOCKERHUB_USERNAME}/${github.DOCKERHUB_REPO}:${github.TAG}",
+      "sudo docker run -d -p 8000:1234 ${github.DOCKERHUB_USERNAME}/${github.DOCKERHUB_REPO}:${github.TAG}",
     ]
   }
     connection {

@@ -4,10 +4,10 @@ resource "aws_security_group" "allow_http" {
   description = "Allow HTTP inbound traffic"
   vpc_id      = aws_vpc.terraform_vpc.id
 
-  ingress {
+   ingress {
     description      = "HTTP from VPC"
-    from_port        = 8000
-    to_port          = 8000
+    from_port        = 80
+    to_port          = 80
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }
@@ -30,11 +30,11 @@ resource "aws_security_group" "allow_sec1" {
   name        = "allow_sec1"
   description = "Allow HTTP inbound traffic to load"
   vpc_id      = aws_vpc.terraform_vpc.id
-
-  ingress {
+  
+    ingress {
     description      = "Traffic from http_sec_group"
-    from_port        = 8000
-    to_port          = 8000
+    from_port        = 80
+    to_port          = 80
     protocol         = "TCP"
     security_groups = [aws_security_group.allow_http.id] 
   }

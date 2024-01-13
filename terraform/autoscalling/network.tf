@@ -6,37 +6,37 @@ resource "aws_vpc" "terraform_vpc" {
 # Create 4 Subnets ------------------------------------------------------------
 resource "aws_subnet" "terraform_sub1" {
   vpc_id            = aws_vpc.terraform_vpc.id
-  cidr_block        = lookup(var.cidr_ranges, "public1")
+  cidr_block        = var.cidr_ranges.publicA
   availability_zone = "us-east-1a"
   tags = {
-    name = "${lookup(var.subnet_type, "public")}-subnet"
+    Name = "publicA-subnet"
   }
 }
 
 resource "aws_subnet" "terraform_sub2" {
   vpc_id            = aws_vpc.terraform_vpc.id
-  cidr_block        = lookup(var.cidr_ranges, "public2")
+  cidr_block        = var.cidr_ranges.publicB
   availability_zone = "us-east-1b"
   tags = {
-    name = "${lookup(var.subnet_type, "public")}--subnet"
+    Name = "publicB--subnet"
   }
 }
 
 resource "aws_subnet" "terraform_sub3" {
   vpc_id            = aws_vpc.terraform_vpc.id
-  cidr_block        = lookup(var.cidr_ranges, "private1")
+  cidr_block        = var.cidr_ranges.privateA
   availability_zone = "us-east-1a"
   tags = {
-    name = lookup(var.subnet_type, "private")
+    Name = "privateA-subnet"
   }
 }
 
 resource "aws_subnet" "terraform_sub4" {
   vpc_id            = aws_vpc.terraform_vpc.id
-  cidr_block        = lookup(var.cidr_ranges, "private2")
+  cidr_block        = var.cidr_ranges.privateB
   availability_zone = "us-east-1b"
   tags = {
-    name = lookup(var.subnet_type, "private")
+    Name ="privateB-subnet"
   }
 }
 

@@ -16,7 +16,3 @@ terraform {
   #   dynamodb_table = "my_dynamo"
   # }
 }
-
-
-
-

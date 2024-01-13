@@ -7,145 +7,152 @@ on:
       - main
 
 jobs:
-  # Build:
-  #   environment: Production
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "20.x"
-  #     - name: Build and run Parcel in the background
-  #       run: |
-  #         nohup npx parcel build src/index.html > /dev/null 2>&1 &
-  #         echo $! > .pidfile
+  Build:
+    environment: Production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Build and run Parcel in the background
+        run: |
+          nohup npx parcel build src/index.html > /dev/null 2>&1 &
+          echo $! > .pidfile
 
-  # Test:
-  #   runs-on: ubuntu-latest
-  #   environment: Production
-  #   needs: Build
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Use Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: "20.x"
-  #     - name: Install jest
-  #       run: npm install --save-dev jest
-  #     - name: Run  Jest test
-  #       run: npm test
+  Test:
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: Build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Install jest
+        run: npm install --save-dev jest
+      - name: Run  Jest test
+        run: npm test
 
-  # Format:
-  #   runs-on: ubuntu-latest
-  #   environment: Production
-  #   needs: [Build, Test]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #         ref: ${{ github.head_ref }}
-  #         persist-credentials: false
-  #     - name: Prettify code
-  #       uses: creyD/prettier_action@v4.3
-  #       with:
-  #         prettier_options: --write **/*.{js,md}
-  #         only_changed: True
-  #         github_token: ${{ secrets.MY_TOKEN }}
+  Format:
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: [Build, Test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --write **/*.{js,md}
+          only_changed: True
+          github_token: ${{ secrets.MY_TOKEN }}
 
-  # Security:
-  #   runs-on: ubuntu-latest
-  #   needs: [Build, Test, Format]
-  #   environment: Production
-  #   steps:
-  #     - name: Snyk
-  #       uses: actions/checkout@master
-  #     - name: Run Snyk to check for vulnerabilities
-  #       uses: snyk/actions/node@master
-  #       continue-on-error: true
-  #       env:
-  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  #       with:
-  #         command: monitor
-  #     - name: Check for hardcoded secrets with Gitleaks
-  #       uses: gitleaks/gitleaks-action@v2
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-  #     - name: Scan for smells and vulnerabilities with SonarCloud Scan
-  #       uses: sonarsource/sonarcloud-github-action@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  Security:
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Format]
+    environment: Production
+    steps:
+      - name: Snyk
+        uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+      - name: Check for hardcoded secrets with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+      - name: Scan for smells and vulnerabilities with SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  # Container:
-  #   runs-on: ubuntu-latest
-  #   needs: [Build, Test, Format, Security]
-  #   environment: Production
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
-  #     - name: Build and push in private registry
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: .
-  #         push: true
-  #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
-  #     - name: Scnan DockerHub registry Trivy vulnerability scanner
-  #       uses: aquasecurity/trivy-action@master
-  #       with:
-  #         image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
-  #         format: "sarif"
-  #         output: "trivy-results.sarif"
-  #       env:
-  #         TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-  #     - name: Set up Docker Compose
-  #       run: sudo apt install -y docker-compose
-  #     - name: Build and Run Docker Compose
-  #       run: |
-  #         docker-compose up --build -d
-  #         docker container ls
+  Container:
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Format, Security]
+    environment: Production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push in private registry
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
+      - name: Scnan DockerHub registry Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
+          format: "sarif"
+          output: "trivy-results.sarif"
+        env:
+          TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Compose
+        run: sudo apt install -y docker-compose
+      - name: Build and Run Docker Compose
+        run: |
+          docker-compose up --build -d
+          docker container ls
 
-  # Upload-Artifactory:
-  #   runs-on: ubuntu-latest
-  #   needs: [Build, Test, Format, Security, Container]
-  #   environment: Production
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Archive production artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: dist-mapping-artefact
-  #         path: |
-  #           dist
-  #           !dist/**/*.map
-  #         compression-level: 3
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: dist-mapping-artefact
-  #     - name: Display structure of downloaded files
-  #       run: ls -R
+  Upload-Artifactory:
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Format, Security, Container]
+    environment: Production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-mapping-artefact
+          path: |
+            dist
+            !dist/**/*.map
+          compression-level: 3
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-mapping-artefact
+      - name: Display structure of downloaded files
+        run: ls -R
 
   Deploy:
     runs-on: ubuntu-latest
+    needs: [Build, Test, Format, Security, Container, Upload-Artifactory]
     environment: Production
+    strategy:
+      matrix: { dir: ["terraform/deploy", "terraform/autoscalling"] }
     defaults:
       run:
         working-directory: terraform/deploy
     env:
       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_REPO }}
+      TAG: ${{ github.sha }}
       AWS_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
@@ -176,16 +183,11 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
 
-      # - name: Terraform destroy
-      #   id: destroy
-      #   run: terraform destroy -auto-approve
-
-    # Add-Contributer-readme:
-    #   runs-on: ubuntu-latest
-    #   # needs: [Build]
-    #   environment: Production
-    #   steps:
-    #     - name: Contribute List
-    #       uses: akhilmhdh/contributors-readme-action@v2.3.6
-    #       env:
-    #         GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+  Add-Contributer-readme:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Contribute List
+        uses: akhilmhdh/contributors-readme-action@v2.3.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}

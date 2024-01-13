@@ -25,9 +25,9 @@ resource "aws_launch_template" "first_template" {
     sudo amazon-linux-extras install docker -y
     sudo service docker start
     sudo usermod -a -G docker ec2-user
-    sudo docker login -u seeshellol -p metropolis
-    sudo docker pull seeshellol/tamago-app:ea8c4d7f61f676231ad77a1a8adc09f134e2d12a
-    sudo docker run -d -p 8000:1234 seeshellol/tamago-app:ea8c4d7f61f676231ad77a1a8adc09f134e2d12a
+    "sudo docker login -u ${github.DOCKERHUB_USERNAME} -p ${github.DOCKERHUB_PASSWORD}",
+    "sudo docker pull ${github.DOCKERHUB_USERNAME}/${github.DOCKERHUB_REPO}:${github.TAG}",
+    "sudo docker run -d -p 8000:1234 ${github.DOCKERHUB_USERNAME}/${github.DOCKERHUB_REPO}:${github.TAG}"
   EOF
   )
 }
@@ -41,7 +41,7 @@ resource "aws_autoscaling_group" "asg-to" {
 target_group_arns = [ aws_lb_target_group.alb-target.arn ]
   launch_template {
     id      = aws_launch_template.first_template.id
-    version = "$Latest"
+    version = "${aws_launch_template.first_template.latest_version}"
   }
 }
 
@@ -56,7 +56,7 @@ resource "aws_autoscaling_policy" "the_policy" {
 }
 
 # Cloudwatch config -----------------------------------------------------------
-resource "aws_cloudwatch_metric_alarm" "foobar" {
+resource "aws_cloudwatch_metric_alarm" "my_cloudwatch_metric" {
   alarm_name                = "terraform-test-foobar5"
   comparison_operator       = "GreaterThanOrEqualToThreshold"
   evaluation_periods        = 1

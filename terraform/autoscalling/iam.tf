@@ -13,7 +13,7 @@ resource "aws_iam_role" "ssm_selfmade" {
     ]
   })
   tags = {
-    name = "role"
+    Name = "role"
   }
 }
 
@@ -30,3 +30,6 @@ resource "aws_iam_instance_profile" "iam_instance_profile" {
     name = "profile"
   }
 }
+
+
+
