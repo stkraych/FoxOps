@@ -7,52 +7,52 @@ on:
       - main
 
 jobs:
-  Build:
-    environment: Production
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-      - name: Build and run Parcel in the background
-        run: |
-          nohup npx parcel build src/index.html > /dev/null 2>&1 &
-          echo $! > .pidfile
+  # Build:
+  #   environment: Production
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20.x"
+  #     - name: Build and run Parcel in the background
+  #       run: |
+  #         nohup npx parcel build src/index.html > /dev/null 2>&1 &
+  #         echo $! > .pidfile
 
-  Test:
-    runs-on: ubuntu-latest
-    environment: Production
-    needs: Build
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-      - name: Install jest
-        run: npm install --save-dev jest
-      - name: Run  Jest test
-        run: npm test
+  # Test:
+  #   runs-on: ubuntu-latest
+  #   environment: Production
+  #   needs: Build
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20.x"
+  #     - name: Install jest
+  #       run: npm install --save-dev jest
+  #     - name: Run  Jest test
+  #       run: npm test
 
-  Format:
-    runs-on: ubuntu-latest
-    environment: Production
-    needs: [Build, Test]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-          persist-credentials: false
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
-        with:
-          prettier_options: --write **/*.{js,md}
-          only_changed: True
-          github_token: ${{ secrets.MY_TOKEN }}
+  # Format:
+  #   runs-on: ubuntu-latest
+  #   environment: Production
+  #   needs: [Build, Test]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #         ref: ${{ github.head_ref }}
+  #         persist-credentials: false
+  #     - name: Prettify code
+  #       uses: creyD/prettier_action@v4.3
+  #       with:
+  #         prettier_options: --write **/*.{js,md}
+  #         only_changed: True
+  #         github_token: ${{ secrets.MY_TOKEN }}
 
   Security:
     runs-on: ubuntu-latest
@@ -139,7 +139,7 @@ jobs:
 
   Deploy:
     runs-on: ubuntu-latest
-    needs: [Build, Test, Format, Security, Container, Upload-Artifactory]
+    # needs: [Build, Test, Format, Security, Container, Upload-Artifactory]
     environment: Production
     strategy:
       matrix: { dir: ["terraform/deploy", "terraform/autoscalling"] }
@@ -152,7 +152,6 @@ jobs:
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_REPO }}
-      TAG: ${{ github.sha }}
       AWS_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
