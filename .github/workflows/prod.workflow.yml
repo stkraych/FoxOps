@@ -146,7 +146,7 @@ jobs:
       matrix: { dir: ["terraform/deploy", "terraform/autoscalling"] }
     defaults:
       run:
-        working-directory: terraform/deploy
+        working-directory: ${{ matrix.dir }}
     env:
       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
