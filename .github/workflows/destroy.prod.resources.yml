@@ -1,0 +1,28 @@
+name: Destroy Infrastructure
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  Destroy:
+    runs-on: ubuntu-latest
+    environment: Production
+    defaults:
+      run:
+        working-directory: terraform/deploy
+    env:
+      AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+      AWS_REGION: us-east-1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
+      - name: Terraform destroy
+        id: destroy
+        run: terraform destroy -auto-approve
