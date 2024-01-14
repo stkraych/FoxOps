@@ -150,9 +150,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_REPO: ${{ secrets.DOCKERHUB_REPO }}
       AWS_REGION: us-east-1
     steps:
       - uses: actions/checkout@v4
@@ -181,7 +178,7 @@ jobs:
         run: exit 1
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
 
   Add-Contributer-readme:
     runs-on: ubuntu-latest

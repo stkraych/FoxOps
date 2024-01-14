@@ -48,8 +48,8 @@ jobs:
         run: npm test
 
   Format:
-   runs-on: ubuntu-latest
-    needs: [Checkout, Build, Test]
+    runs-on: ubuntu-latest
+    needs: [Build, Test]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,9 +65,8 @@ jobs:
           github_token: ${{ secrets.MY_TOKEN }}
 
   Security:
-    runs-on:
-      ubuntu-latest
-      #   needs: [Build, Test]
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Format]
     steps:
       - name: Snyk
         uses: actions/checkout@master
@@ -88,62 +87,62 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  # Docker:
-  #   runs-on: ubuntu-latest
-  #   # needs: [Build, Test]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v3
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
-  #     - name: Build and push in private registry
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: .
-  #         push: true
-  #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
-  #     - name: Scnan DockerHub registry Trivy vulnerability scanner
-  #       uses: aquasecurity/trivy-action@master
-  #       with:
-  #         image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
-  #         format: "sarif"
-  #         output: "trivy-results.sarif"
-  #       env:
-  #         TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-  #     - name: Set up Docker Compose
-  #       run: sudo apt install -y docker-compose
-  #     - name: Build and Run Docker Compose
-  #       run: |
-  #         docker-compose up --build -d
-  #         docker container ls
+  Docker:
+    runs-on: ubuntu-latest
+    # needs: [Build, Test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push in private registry
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}
+      - name: Scnan DockerHub registry Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ github.sha }}"
+          format: "sarif"
+          output: "trivy-results.sarif"
+        env:
+          TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Compose
+        run: sudo apt install -y docker-compose
+      - name: Build and Run Docker Compose
+        run: |
+          docker-compose up --build -d
+          docker container ls
 
-  # Upload-Artifactory:
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #    - uses: jfrog/setup-jfrog-cli@v3
-  #      env:
-  #       JF_URL: ${{ secrets.ARTIFACTORY_URL }}
-  #       JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
-  #    - run: |
-  #       export SERVER_ID="test"
-  #       jf c add $SERVER_ID --url=$URL --access-token=$ACCESS_TOKEN --interactive=false
-  #    - name: Push Build to Artifactory
-  #      run: |
-  #       echo "test file " > test.txt
-  #       export BUILD_NAME="my-build"
-  #       export BUILD_MODULE="my-module"
-  #       export BUILD_NUMBER="1"
-  #       export PATH_TO_DIRECTORY="name/version/dates"
-  #       jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
-  #    - name: Build to Artifactory
-  #      run: |
-  #       jf rt build-publish $BUILD_NAME $BUILD_NUMBER
-  #       jf rt bdi c --max-builds=1
+  Upload-Artifactory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jfrog/setup-jfrog-cli@v3
+        env:
+          JF_URL: ${{ secrets.ARTIFACTORY_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.ARTIFACTORY_ACCESS_TOKEN }}
+      - run: |
+          export SERVER_ID="test"
+          jf c add $SERVER_ID --url=$URL --access-token=$ACCESS_TOKEN --interactive=false
+      - name: Push Build to Artifactory
+        run: |
+          echo "test file " > test.txt
+          export BUILD_NAME="my-build"
+          export BUILD_MODULE="my-module"
+          export BUILD_NUMBER="1"
+          export PATH_TO_DIRECTORY="name/version/dates"
+          jf rt upload "test.txt" example-repo-local/$PATH_TO_DIRECTORY --build-name $BUILD_NAME --build-number $BUILD_NUMBER --module $BUILD_MODULE
+      - name: Build to Artifactory
+        run: |
+          jf rt build-publish $BUILD_NAME $BUILD_NUMBER
+          jf rt bdi c --max-builds=1
