@@ -8,13 +8,13 @@ terraform {
     }
   }
 
-  #   backend "s3" {
-  #   bucket         	   = "my-bucket-1234d"
-  #   key              	   = "state/terraform.tfstate"
-  #   region         	   = "us-east-1"
-  #   encrypt        	   = true
-  #   dynamodb_table = "my_dynamo"
-  # }
+    backend "s3" {
+    bucket         	   = var.BUCKET_NAME
+    key              	   = "state/terraform.tfstate"
+    region         	   = "us-east-1"
+    encrypt        	   = true
+    dynamodb_table = var.TABLE_NAME
+  }
 }
 
 
