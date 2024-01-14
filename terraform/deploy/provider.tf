@@ -9,11 +9,11 @@ terraform {
   }
 
     backend "s3" {
-    bucket         	   = "state-bucket-9203143-2"
+    bucket         	   = "state-bucket-9203143-3"
     key              	   = "state/terraform.tfstate"
     region         	   = "us-east-1"
     encrypt        	   = true
-    dynamodb_table = "dynamo_table-2"
+    dynamodb_table = "dynamo_table-3"
   }
 }
 
