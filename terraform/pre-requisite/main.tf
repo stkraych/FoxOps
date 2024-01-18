@@ -1,7 +1,8 @@
-
 provider "aws" {
   region = "us-east-1"
 }
+
+# Create S3 reosurces ----------------------------------------------------
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket = var.BUCKET_NAME
@@ -25,6 +26,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "S3_encryption" {
   }
 }
 
+# Create DynamoDB ----------------------------------------------------
 
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = var.TABLE_NAME

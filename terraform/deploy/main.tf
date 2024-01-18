@@ -1,3 +1,6 @@
+
+# Create a EC2 with user data and connection ----------------------------------------------------------------
+
 resource "aws_instance" "my_aws_instance" {
   ami = data.aws_ssm_parameter.webserver-ami.value
   instance_type = "t2.micro"
@@ -27,11 +30,14 @@ resource "aws_instance" "my_aws_instance" {
     Name = "webserver"
   }
 }
+# Create a Key-Pair ----------------------------------------------------------------
 
 resource "aws_key_pair" "webserver-key" {
   key_name   = "webserver-key"
   public_key = file("/home/runner/.ssh/id_rsa.pub")
 }
+
+# Output of public IP from EC2 ----------------------------------------------------------------
 
 output "Webserver-Public-IP" {
   value = aws_instance.my_aws_instance.public_ip

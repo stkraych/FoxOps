@@ -4,7 +4,6 @@ data "aws_ami" "my_ami" {
   
 }
 
-
 resource "aws_launch_template" "first_template" {
   name_prefix            = "terraform"
   image_id               = data.aws_ami.my_ami.id
