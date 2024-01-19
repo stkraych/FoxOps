@@ -1,9 +1,13 @@
 name: Destroy Infrastructure
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - destroy*
+  # workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy to production"]
+    types:
+      - completed
+  # push:
+  #   branches:
+  #     - destroy*
 
 jobs:
   Destroy:
@@ -23,6 +27,16 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Terraform destroy
-        id: destroy
-        run: terraform destroy -auto-approve
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-east-1
+      - name: Terraform Init
+        run: terraform init -backend-config="state-bucket-9203143-3" -backend-config="terraform.tfstate" -backend-config="region=us-east-1"
+      - name: Terraform Destroy
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          terraform destroy -auto-approve
+          aws s3 rm s3://state-bucket-9203143-3/your-state-file.tfstate
