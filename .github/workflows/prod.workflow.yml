@@ -167,7 +167,6 @@ jobs:
         run: terraform validate -no-color
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'push'
         run: terraform plan -no-color -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
