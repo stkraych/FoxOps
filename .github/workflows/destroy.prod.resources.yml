@@ -34,7 +34,7 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
       - name: Terraform Init
-        run: terraform init -backend-config="state-bucket-9203143-3" -backend-config="terraform.tfstate" -backend-config="region=us-east-1"
+        run: terraform init -backend-config="state-bucket-9203143-5" -backend-config="terraform.tfstate" -backend-config="region=us-east-1"
       - name: Terraform Destroy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
