@@ -156,17 +156,13 @@ jobs:
       - name: Generate SSH key
         run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
       - name: Terraform fmt
-        id: fmt
         run: terraform fmt -check
         continue-on-error: true
       - name: Terraform Init
-        id: init
         run: terraform init
       - name: Terraform Validate
-        id: validate
         run: terraform validate -no-color
       - name: Terraform Plan
-        id: plan
         run: terraform plan -no-color -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
       - name: Terraform Apply
         run: terraform apply -auto-approve -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
@@ -188,20 +184,15 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Generate SSH key
-        run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
       - name: Terraform fmt
-        id: fmt
         run: terraform fmt -check
         continue-on-error: true
       - name: Terraform Init
-        id: init
         run: terraform init
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
       - name: Terraform Plan
-        id: plan
         run: terraform plan -no-color
         continue-on-error: true
       - name: Terraform Apply

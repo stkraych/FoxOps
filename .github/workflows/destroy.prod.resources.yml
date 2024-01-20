@@ -1,13 +1,8 @@
 name: Destroy Infrastructure
 on:
-  # workflow_dispatch:
-  workflow_run:
-    workflows: ["Deploy to production"]
-    types:
-      - completed
-  # push:
-  #   branches:
-  #     - destroy*
+  push:
+    branches:
+      - destroy*
 
 jobs:
   Destroy:
@@ -35,7 +30,7 @@ jobs:
           aws configure set region us-east-1
       - name: Download Terraform state file from S3
         run: |
-          aws s3 cp s3://state-bucket-9203143-12/state/terraform.tfstate
+          aws s3 cp s3://state-bucket-9203143-12/state/terraform.tfstate .
       - name: Destroy Terraform resources
         run: |
           terraform init
