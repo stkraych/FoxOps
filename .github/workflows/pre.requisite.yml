@@ -33,20 +33,15 @@ jobs:
         id: validate
         run: terraform validate -no-color
       - name: Terraform Plan
-        id: plan
-        if: github.event_name == 'push'
         run: terraform plan -no-color -var "BUCKET_NAME=${{ vars.BUCKET_NAME }}" -var "TABLE_NAME=${{ vars.TABLE_NAME }}"
         continue-on-error: true
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -var "BUCKET_NAME=${{ vars.BUCKET_NAME }}" -var "TABLE_NAME=${{ vars.TABLE_NAME }}"
 
   Backend_Autoscalling:
     runs-on: ubuntu-latest
     environment: Production
+    needs: Backend_Deploy
     defaults:
       run:
         working-directory: terraform/pre-requisite/autoscalling
@@ -74,9 +69,5 @@ jobs:
         if: github.event_name == 'push'
         run: terraform plan -no-color -var "BUCKET_NAME=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME=${{ vars.TABLE_NAME_2 }}"
         continue-on-error: true
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -var "BUCKET_NAME=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME=${{ vars.TABLE_NAME_2 }}"
