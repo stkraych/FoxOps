@@ -35,7 +35,7 @@ jobs:
           aws configure set region us-east-1
       - name: Download Terraform state file from S3
         run: |
-          aws s3 cp s3://state-bucket-9203143-8/terraform.tfstate
+          aws s3 cp s3://state-bucket-9203143-9/terraform.tfstate
       - name: Destroy Terraform resources
         run: |
           terraform init
