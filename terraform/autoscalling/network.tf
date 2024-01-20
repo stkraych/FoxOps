@@ -1,6 +1,6 @@
 # Create a VPC ----------------------------------------------------------------
 resource "aws_vpc" "terraform_vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block ="10.0.0.0/16"
 }
 
 # Create 4 Subnets ------------------------------------------------------------
@@ -9,7 +9,7 @@ resource "aws_subnet" "terraform_sub1" {
   cidr_block        = var.cidr_ranges.publicA
   availability_zone = "us-east-1a"
   tags = {
-    Name = "publicA-subnet"
+    Name = "publicA_subnet"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_subnet" "terraform_sub2" {
   cidr_block        = var.cidr_ranges.publicB
   availability_zone = "us-east-1b"
   tags = {
-    Name = "publicB--subnet"
+    Name = "publicB_subnet"
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_subnet" "terraform_sub3" {
   cidr_block        = var.cidr_ranges.privateA
   availability_zone = "us-east-1a"
   tags = {
-    Name = "privateA-subnet"
+    Name = "privateA_subnet"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_subnet" "terraform_sub4" {
   cidr_block        = var.cidr_ranges.privateB
   availability_zone = "us-east-1b"
   tags = {
-    Name ="privateB-subnet"
+    Name ="privateB_subnet"
   }
 }
 
@@ -58,11 +58,17 @@ resource "aws_eip" "terraform_elip2" {
 resource "aws_nat_gateway" "terraform_nat" {
   allocation_id = aws_eip.terraform_elip.id
   subnet_id     = aws_subnet.terraform_sub1.id
+   tags = {
+    Name = "My_nat_1"
+  }
 }
 
 resource "aws_nat_gateway" "terraform_nat2" {
   allocation_id = aws_eip.terraform_elip2.id
   subnet_id     = aws_subnet.terraform_sub2.id
+   tags = {
+    Name = "My_nat_2"
+  }
 }
 
 # Create 4 Routing Tables -----------------------------------------------------
@@ -71,6 +77,9 @@ resource "aws_route_table" "terraform_route_gateway" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.terraform_gateway.id
+  }
+   tags = {
+    Name = "My_gateway"
   }
 }
 

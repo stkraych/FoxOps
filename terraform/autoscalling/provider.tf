@@ -1,5 +1,4 @@
 terraform {
-  required_version = "1.6.6"
 
   required_providers {
     aws = {
@@ -8,11 +7,15 @@ terraform {
     }
   }
 
-  #   backend "s3" {
-  #   bucket         	   = "my-bucket-1234d"
-  #   key              	   = "state/terraform.tfstate"
-  #   region         	   = "us-east-1"
-  #   encrypt        	   = true
-  #   dynamodb_table = "my_dynamo"
-  # }
+    backend "s3" {
+    bucket         	   = "autoscalling-bucket-23482"
+    key              	   = "terraform.tfstate"
+    region         	   = "us-east-1"
+    encrypt        	   = true
+    dynamodb_table = "autoscalling-dynamo-db"
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
 }

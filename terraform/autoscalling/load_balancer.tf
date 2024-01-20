@@ -6,10 +6,9 @@ resource "aws_lb" "load_balancer" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_http.id]
   subnets            = [aws_subnet.terraform_sub1.id, aws_subnet.terraform_sub2.id]
-
   enable_deletion_protection = false
   tags = {
-    Name = "load-balancer"
+    name = "load-balancer"
   }
 }
 

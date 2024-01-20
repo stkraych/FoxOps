@@ -12,6 +12,9 @@ variable "cidr_ranges" {
     privateB = "10.0.4.0/24"
   }
 }
+variable "used_image" {
+  default = "ami-0005e0cfe09cc9050"
+  }
 
 
 variable "DOCKERHUB_USERNAME" {
