@@ -8,8 +8,8 @@ terraform {
   }
 
     backend "s3" {
-    bucket         	   = "autoscalling-bucket-23482-3"
-    key              	   = "terraform.tfstate"
+    bucket         	   = "autoscalling-bucket-23482-4"
+    key              	   = "state/terraform.tfstate"
     region         	   = "us-east-1"
     encrypt        	   = true
     dynamodb_table = "autoscalling-dynamo-db"
