@@ -33,10 +33,10 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
-      - name: Terraform Init
-        run: terraform init -backend-config="state-bucket-9203143-7" -backend-config="terraform.tfstate" -backend-config="region=us-east-1"
-      - name: Terraform Destroy
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Download Terraform state file from S3
         run: |
+          aws s3 cp s3://state-bucket-9203143-8/terraform.tfstate
+      - name: Destroy Terraform resources
+        run: |
+          terraform init
           terraform destroy -auto-approve
-          aws s3 rm s3://state-bucket-9203143-3/your-state-file.tfstate
