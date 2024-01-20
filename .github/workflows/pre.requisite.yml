@@ -67,7 +67,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan -no-color -var "BUCKET_NAME=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME=${{ vars.TABLE_NAME_2 }}"
+        run: terraform plan -no-color -var "BUCKET_NAME_2=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME_2=${{ vars.TABLE_NAME_2 }}"
         continue-on-error: true
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "BUCKET_NAME=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME=${{ vars.TABLE_NAME_2 }}"
+        run: terraform apply -auto-approve -var "BUCKET_NAME_2=${{ vars.BUCKET_NAME_2 }}" -var "TABLE_NAME_2=${{ vars.TABLE_NAME_2 }}"
