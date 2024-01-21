@@ -28,11 +28,13 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
-      - name: Download Terraform state file from S3
+     - name: Download state file from S3
         run: |
-          aws s3 cp s3://state-bucket-9203143-12/state/terraform.tfstate .
-      - name: Destroy Terraform resources
+          # Download the state file from S3
+          aws s3 cp s3://state-bucket-9203143-13/deploy/terraform.tfstate .
+
+      - name: Destroy resources using Terraform
         run: |
           terraform init
-          terraform plan
-          terraform destroy -auto-approve
+          terraform destroy -auto-approve -state=deploy/terraform.tfstate
+
