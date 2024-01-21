@@ -200,6 +200,9 @@ jobs:
         continue-on-error: true
       - name: Terraform Apply
         run: terraform apply -auto-approve -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
+      - name: Terraform destroy
+        id: destroy
+        run: terraform destroy -auto-approve
 
   # Add-Contributer-readme:
   #   runs-on: ubuntu-latest

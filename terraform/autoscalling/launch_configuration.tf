@@ -10,23 +10,30 @@ resource "aws_launch_template" "first_template" {
     arn = aws_iam_instance_profile.iam_instance_profile.arn
    }
 
-  tags = {
-      Name =  "first-template"
-  }
-   
-  vpc_security_group_ids = [aws_security_group.allow_sec1.id, aws_security_group.allow_sec1.id]
-
-    user_data = <<-EOF
-    #!/bin/bash
-    sudo yum update -y
-    sudo amazon-linux-extras install docker -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
-    sudo docker login -u ${var.DOCKERHUB_USERNAME} -p ${var.DOCKERHUB_PASSWORD}
-    sudo docker pull ${var.DOCKERHUB_USERNAME}/${var.DOCKERHUB_REPO}:${var.TAG}
-    sudo docker run -d -p 8000:1234 ${var.DOCKERHUB_USERNAME}/${var.DOCKERHUB_REPO}:${var.TAG}
-  EOF
   
+   
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "project-autoscalling"
+    }
+  }
+
+  user_data = base64encode(
+      <<-EOF
+    #!/bin/bash
+     sudo yum update -y
+     sudo yum install docker -y && yum install -y nginx && yum install stress -y
+     service docker start
+     usermod -a -G docker ec2-user
+     docker login -u ${var.DOCKERHUB_USERNAME} -p ${var.DOCKERHUB_PASSWORD}
+     docker pull ${var.DOCKERHUB_USERNAME}/${var.DOCKERHUB_REPO}:${var.TAG}
+     docker run -d -p 8000:1234 ${var.DOCKERHUB_USERNAME}/${var.DOCKERHUB_REPO}:${var.TAG}
+     systemctl enable nginx --now
+     stress --cpu 80
+  EOF
+    )
 }
 
 # Create a ASG ----------------------------------------------------------------
