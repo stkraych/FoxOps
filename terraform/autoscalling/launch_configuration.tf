@@ -10,13 +10,15 @@ resource "aws_launch_template" "first_template" {
     arn = aws_iam_instance_profile.iam_instance_profile.arn
    }
 
+  count = 0
+
   
    
   tag_specifications {
     resource_type = "instance"
 
     tags = {
-      Name = "project-autoscalling"
+      Name = "autoscalling-${count.index + 1}"
     }
   }
 

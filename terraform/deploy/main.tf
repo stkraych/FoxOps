@@ -2,9 +2,9 @@
 # Create a EC2 with user data and connection ----------------------------------------------------------------
 
 resource "aws_instance" "my_aws_instance" {
-  ami = data.aws_ssm_parameter.webserver-ami.value
+  ami = data.aws_ssm_parameter.application-ami.value
   instance_type = "t2.micro"
-  key_name  = aws_key_pair.webserver-key.key_name
+  key_name  = aws_key_pair.application-key.key_name
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.sg.id]
   subnet_id                   = aws_subnet.subnet.id
@@ -27,19 +27,19 @@ resource "aws_instance" "my_aws_instance" {
       host        = self.public_ip
     }
   tags = {
-    Name = "webserver"
+    Name = "application"
   }
 }
 # Create a Key-Pair ----------------------------------------------------------------
 
-resource "aws_key_pair" "webserver-key" {
-  key_name   = "webserver-key"
+resource "aws_key_pair" "application-key" {
+  key_name   = "applicati-key"
   public_key = file("/home/runner/.ssh/id_rsa.pub")
 }
 
 # Output of public IP from EC2 ----------------------------------------------------------------
 
-output "Webserver-Public-IP" {
+output "Application-Public-IP" {
   value = aws_instance.my_aws_instance.public_ip
 }
 

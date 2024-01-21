@@ -1,6 +1,9 @@
 # Create a VPC ----------------------------------------------------------------
 resource "aws_vpc" "terraform_vpc" {
   cidr_block ="172.16.0.0/16"
+    tags = {
+    Name = "Autoscalling_vpc"
+  }
 }
 
 # Create 4 Subnets ------------------------------------------------------------
@@ -89,6 +92,9 @@ resource "aws_route_table" "route_nat" {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.terraform_nat.id
   }
+  tags = {
+    Name = "Nat_table_1"
+  }
 }
 
 resource "aws_route_table" "route_nat2" {
@@ -96,6 +102,10 @@ resource "aws_route_table" "route_nat2" {
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.terraform_nat2.id
+  }
+
+   tags = {
+    Name = "Nat_table_2"
   }
 }
 

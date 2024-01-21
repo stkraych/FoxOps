@@ -8,7 +8,7 @@ resource "aws_lb" "load_balancer" {
   subnets            = [aws_subnet.terraform_sub1.id, aws_subnet.terraform_sub2.id]
   enable_deletion_protection = false
   tags = {
-    name = "load-balancer"
+    Name = "load-balancer"
   }
 }
 

@@ -19,3 +19,9 @@ variable "TAG" {
   description = "Image tag"
   type = string
 }
+
+variable "ami" {
+  description = "Ami of aws ssm"
+  type = string
+  default = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+}

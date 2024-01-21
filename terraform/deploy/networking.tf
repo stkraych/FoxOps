@@ -9,12 +9,20 @@ resource "aws_vpc" "vpc" {
 }
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
+
+  tags={
+    Name = "app-gateway"
+  }
 }
 
 resource "aws_subnet" "subnet" {
   availability_zone = element(data.aws_availability_zones.azs.names, 0)
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = "10.0.1.0/24"
+
+  tags = {
+    Name ="app-subnet"
+  }
 }
 
 resource "aws_default_route_table" "internet_route" {
