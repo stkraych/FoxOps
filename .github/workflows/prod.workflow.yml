@@ -1,13 +1,13 @@
 name: Deploy to production
 
 on:
-  push:
-    branches:
-      - main
-  # workflow_run:
-  #   workflows: ["Create backend"]
-  #   types:
-  #     - completed
+  # push:
+  #   branches:
+  #     - main
+  workflow_run:
+    workflows: ["Create backend"]
+    types:
+      - completed
 jobs:
   # Build:
   #   environment: Production
@@ -196,13 +196,10 @@ jobs:
         id: validate
         run: terraform validate -no-color
       - name: Terraform Plan
-        run: terraform plan   -lock=false -no-color
+        run: terraform plan -no-color -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
         continue-on-error: true
       - name: Terraform Apply
         run: terraform apply -auto-approve -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}"
-      - name: Terraform destroy
-        id: destroy
-        run: terraform destroy -auto-approve
 
   # Add-Contributer-readme:
   #   runs-on: ubuntu-latest
