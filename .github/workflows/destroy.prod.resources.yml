@@ -5,43 +5,43 @@ on:
       - destroy*
 
 jobs:
-  # Destroy-Deploy:
-  #   runs-on: ubuntu-latest
-  #   environment: Production
-  #   defaults:
-  #     run:
-  #       working-directory: terraform/deploy
-  #   env:
-  #     AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-  #     AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-  #     AWS_REGION: us-east-1
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-  #     - name: Setup Terraform
-  #       uses: hashicorp/setup-terraform@v3
-  #       with:
-  #         cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-  #     - uses: actions/checkout@v4
-  #     - name: Configure AWS credentials
-  #       run: |
-  #         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws configure set region us-east-1
-  #     - name: Generate SSH key
-  #       run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
-  #     - name: Download state file from S3
-  #       run: |
-  #         aws s3 cp s3://state-bucket-9203143-13/deploy/terraform.tfstate .
-  #     - name: Destroy resources using Terraform
-  #       run: |
-  #         terraform init -lock=false
-  #         terraform destroy -lock=false -auto-approve  -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}" -state=deploy/terraform.tfstate
+  Destroy-Deploy:
+    runs-on: ubuntu-latest
+    environment: Production
+    defaults:
+      run:
+        working-directory: terraform/deploy
+    env:
+      AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+      AWS_REGION: us-east-1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region us-east-1
+      - name: Generate SSH key
+        run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
+      - name: Download state file from S3
+        run: |
+          aws s3 cp s3://state-bucket-9203143-14/deploy/terraform.tfstate .
+      - name: Destroy resources using Terraform
+        run: |
+          terraform init -lock=false
+          terraform destroy -lock=false -auto-approve  -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}" -state=deploy/terraform.tfstate
 
   Destroy-Autoscalling:
     runs-on: ubuntu-latest
     environment: Production
-    # needs: Destroy-Deploy
+    needs: Destroy-Deploy
     defaults:
       run:
         working-directory: terraform/autoscalling
@@ -64,7 +64,7 @@ jobs:
           aws configure set region us-east-1
       - name: Download state file from S3
         run: |
-          aws s3 cp s3://autoscalling-bucket-23482-8/autoscalling/terraform.tfstate .
+          aws s3 cp s3://autoscalling-bucket-23482-9/autoscalling/terraform.tfstate .
       - name: Destroy resources using Terraform
         run: |
           terraform init -lock=false
