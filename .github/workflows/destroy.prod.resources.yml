@@ -32,7 +32,7 @@ jobs:
         run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
       - name: Download state file from S3
         run: |
-          aws s3 cp s3://state-bucket-9203143-16/deploy/terraform.tfstate .
+          aws s3 cp s3://state-bucket-9203143-17/deploy/terraform.tfstate .
       - name: Destroy resources using Terraform
         run: |
           terraform init -lock=false
@@ -64,7 +64,7 @@ jobs:
           aws configure set region us-east-1
       - name: Download state file from S3
         run: |
-          aws s3 cp s3://autoscalling-bucket-23482-11/autoscalling/terraform.tfstate .
+          aws s3 cp s3://autoscalling-bucket-23482-12/autoscalling/terraform.tfstate .
       - name: Destroy resources using Terraform
         run: |
           terraform init -lock=false
