@@ -170,7 +170,6 @@ jobs:
   Deploy-Autoscalling:
     runs-on: ubuntu-latest
     needs: [Build, Test, Format, Security, Container, Upload-Artifactory, Deploy]
-    needs: Container
     environment: Production
     defaults:
       run:
