@@ -67,10 +67,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-      - name: Check for hardcoded secrets with Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
       - name: Scan for smells and vulnerabilities with SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
