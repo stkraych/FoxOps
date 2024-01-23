@@ -2,7 +2,6 @@
   "family": "service",
   "taskRoleArn": "",
   "executionRoleArn": "",
-  "networkMode": "none",
   "containerDefinitions": [
     {
       "name": "app",
