@@ -39,9 +39,6 @@
   "ipcMode": "task",
   "proxyConfiguration": null,
   "inferenceAccelerators": [],
-  "ephemeralStorage": {
-    "sizeInGiB": 0
-  },
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "WINDOWS_SERVER_20H2_CORE"
