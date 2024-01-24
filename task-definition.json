@@ -1,7 +1,7 @@
 {
   "containerDefinitions": [
     {
-      "name": "app",
+      "name": "application",
       "image": "seeshellol/public-tamago-app:f78dd6cd99d092708550e66b931eec696135b044",
       "command": ["yarn", "parcel", "src/index.html"],
       "workingDirectory": "/usr/src/app",
