@@ -6,8 +6,8 @@
       "command": ["yarn", "parcel", "src/index.html"],
       "workingDirectory": "/usr/src/app",
       "essential": true,
-      "cpu": 600,
-      "memory": 60,
+      "cpu": 60,
+      "memory": 600,
 
       "portMappings": [
         {
