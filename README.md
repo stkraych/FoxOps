@@ -6,6 +6,13 @@ Final project for Telerik Academy
 
 Static application consisted of HTML, CSS and vanilla Javascript, which is built, tested, scan, format, containerized and deployed on public cloud of AWS. The backbone of the process is GitHub Actions.
 
+Consist of 2 main GitHub Actions workflows:
+
+- Production
+- Dev
+
+## Used tools:
+
 ## Project map
 
 ├── .editorconfig
