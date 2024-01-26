@@ -1,0 +1,54 @@
+name: "Scan Pull Request"
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  scan-pull-request-frogbot:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - uses: jfrog/frogbot@v2
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.MY_TOKEN }}
+          JF_REQUIREMENTS_FILE: "package.json"
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+      - name: Install jest
+        run: npm install --save-dev jest
+      - name: Run  Jest test
+        run: npm test
+
+  Security:
+    runs-on: ubuntu-latest
+    environment: Dev
+    steps:
+      - name: Snyk
+        uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+      - name: Check for hardcoded secrets with Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+      - name: Scan for smells and vulnerabilities with SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
