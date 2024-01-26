@@ -1,4 +1,10 @@
 {
+  "family": "service-github",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "networkMode": "awsvpc",
+
   "containerDefinitions": [
     {
       "name": "application",
@@ -6,8 +12,6 @@
       "command": ["yarn", "parcel", "src/index.html"],
       "workingDirectory": "/usr/src/app",
       "essential": true,
-      "cpu": 2048,
-      "memory": 2048,
 
       "portMappings": [
         {
@@ -18,11 +22,8 @@
       ]
     }
   ],
-  "networkMode": "awsvpc",
-  "family": "service",
   "runtimePlatform": {
     "operatingSystemFamily": "LINUX",
     "cpuArchitecture": "X86_64"
-  },
-  "requiresCompatibilities": ["FARGATE"]
+  }
 }
