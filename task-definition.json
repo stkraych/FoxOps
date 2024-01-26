@@ -26,5 +26,5 @@
     "operatingSystemFamily": "LINUX",
     "cpuArchitecture": "X86_64"
   },
-  "requiresCompatibilities": ["EC2"]
+  "requiresCompatibilities": ["FARGATE"]
 }
