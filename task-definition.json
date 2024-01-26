@@ -18,8 +18,6 @@
       ]
     }
   ],
-  "memory": "800",
-  "cpu": "80",
   "networkMode": "awsvpc",
   "family": "service",
   "runtimePlatform": {
