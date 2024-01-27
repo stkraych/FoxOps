@@ -9,7 +9,7 @@ permissions:
   security-events: write
 jobs:
   scan-repository:
-    environment: Dev
+    environment: frogbot
     runs-on: ubuntu-latest
     strategy:
       matrix:
