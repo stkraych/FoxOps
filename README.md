@@ -8,10 +8,16 @@ Static application consisted of HTML, CSS and vanilla Javascript, which is built
 
 Consist of 2 main GitHub Actions workflows:
 
-- Production
-- Dev
+- Production -> triggered by the deployment of pre.requisite flow , deploys the application on AWS with terraform
+- Dev -> trigger by the deployment of feature branch - does not deploy on public cloud
 
-## Used tools:
+## Used tools
+
+- GitHub/Github Actions
+- Public cloud - AWS
+- Terraform
+- Docker
+- DevSecOps tools - SNYK, Frogbot, Gitleaks
 
 ## Project map
 
