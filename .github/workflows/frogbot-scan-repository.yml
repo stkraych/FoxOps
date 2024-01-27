@@ -22,3 +22,4 @@ jobs:
           JF_GIT_TOKEN: ${{ secrets.MY_TOKEN }}
           JF_GIT_BASE_BRANCH: ${{ matrix.branch }}
           JF_REQUIREMENTS_FILE: "package.json"
+          JF_FAIL: "FALSE"

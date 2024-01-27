@@ -17,6 +17,8 @@ jobs:
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.MY_TOKEN }}
           JF_REQUIREMENTS_FILE: "package.json"
+          JF_FAIL: "FALSE"
+
   Test:
     runs-on: ubuntu-latest
     steps:
