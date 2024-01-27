@@ -7,7 +7,7 @@ terraform {
   }
 
     backend "s3" {
-    bucket         	   = "autoscalling-bucket-23482-17"
+    bucket         	   = "autoscalling-bucket-23482-18"
     key              	   = "autoscalling/terraform.tfstate"
     region         	   = "us-east-1"
     encrypt        	   = true

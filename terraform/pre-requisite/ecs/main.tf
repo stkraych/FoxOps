@@ -27,29 +27,6 @@ resource "aws_security_group" "security_group" {
 }
  
  
-resource "aws_iam_role" "ecs_role" {
-  name = "s3_access"
-
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "1",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "ecs-tasks.amazonaws.com"
-              },
-            "Action": "sts:AssumeRole"            
-        }
-    ]
-}
-EOF
-
-  tags = {
-    tag-key = "ECS-role"
-  }
-}
 
 resource "aws_ecr_repository" "amazon-ecs" {
   name                 = "amazon-ecs"
@@ -71,6 +48,8 @@ resource "aws_ecs_task_definition" "service" {
   cpu                      = 1024
   memory                   = 2048
   network_mode             = "awsvpc"
+  execution_role_arn = "arn:aws:iam::572587238954:role/ecs_access"
+
   
   container_definitions    = <<TASK_DEFINITION
 [

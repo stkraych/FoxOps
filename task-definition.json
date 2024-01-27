@@ -4,7 +4,7 @@
   "cpu": "1024",
   "memory": "2048",
   "networkMode": "awsvpc",
-  "executionRoleArn": "arn:aws:iam::397750815497:role/s3_access",
+  "executionRoleArn": "arn:aws:iam::572587238954:role/ecs_access",
 
   "containerDefinitions": [
     {

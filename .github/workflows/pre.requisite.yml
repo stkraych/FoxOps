@@ -22,10 +22,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
       - name: Terraform Init
         id: init
         run: terraform init
@@ -54,10 +50,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
       - name: Terraform Init
         id: init
         run: terraform init

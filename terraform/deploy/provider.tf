@@ -7,11 +7,11 @@ terraform {
   }
 
     backend "s3" {
-    bucket         	   = "state-bucket-9203143-23"
+    bucket         	   = "state-bucket-9203143-24"
     key              	   = "deploy/terraform.tfstate"
     region         	   = "us-east-1"
     encrypt        	   = true
-    dynamodb_table = "dynamo_table-3"
+    dynamodb_table = "dynamo_table"
   }
 }
 

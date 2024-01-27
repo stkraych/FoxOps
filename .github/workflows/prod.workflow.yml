@@ -191,9 +191,6 @@ jobs:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
       - name: Generate SSH key
         run: ssh-keygen -t rsa -b 4096 -f /home/runner/.ssh/id_rsa
-      - name: Terraform fmt
-        run: terraform fmt -check
-        continue-on-error: true
       - name: Terraform Init
         run: terraform init
       - name: Terraform Validate
@@ -220,9 +217,6 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           cli_config_credentials_token: "${{ secrets.TF_API_TOKEN }}"
-      - name: Terraform fmt
-        run: terraform fmt -check
-        continue-on-error: true
       - name: Terraform Init
         run: terraform init
       - name: Terraform Validate
