@@ -9,6 +9,7 @@ permissions:
   security-events: write
 jobs:
   scan-repository:
+    environment: Dev
     runs-on: ubuntu-latest
     strategy:
       matrix:

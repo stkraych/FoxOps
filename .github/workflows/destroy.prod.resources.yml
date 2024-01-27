@@ -1,5 +1,8 @@
 name: Destroy Infrastructure
 on:
+  #  workflow_dispatch:
+  #   schedule:
+  #     - cron: "0 */2 * * *"
   push:
     branches:
       - destroy*
@@ -59,8 +62,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Configure AWS credentials
         run: |
-          aws configure set aws_access_key_id ${{ vars.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
       - name: Download state file from S3
         run: |

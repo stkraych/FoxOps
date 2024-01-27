@@ -9,7 +9,7 @@ permissions:
 jobs:
   scan-pull-request-frogbot:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: Dev
     steps:
       - uses: jfrog/frogbot@v2
         env:
