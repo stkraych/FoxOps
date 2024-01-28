@@ -1,6 +1,11 @@
+
+# Create a VPC ----------------------------------------------------------------
+
 resource "aws_vpc" "main" {
   cidr_block = "10.32.0.0/16"
 }
+
+# Create a Security Group ----------------------------------------------------------------
 
 resource "aws_security_group" "security_group" {
   name = "security"
@@ -27,6 +32,7 @@ resource "aws_security_group" "security_group" {
 }
  
  
+# Create a ECR Repository ----------------------------------------------------------------
 
 resource "aws_ecr_repository" "amazon-ecs" {
   name                 = "amazon-ecs"
@@ -41,6 +47,7 @@ resource "aws_ecr_repository" "amazon-ecs" {
   }
 }
 
+# Create a Task definition ----------------------------------------------------------------
 
 resource "aws_ecs_task_definition" "service" {
   family                   = "service"
@@ -48,7 +55,7 @@ resource "aws_ecs_task_definition" "service" {
   cpu                      = 1024
   memory                   = 2048
   network_mode             = "awsvpc"
-  execution_role_arn = "arn:aws:iam::572587238954:role/ecs_access"
+  execution_role_arn = "arn:aws:iam::178583746030:role/ecs_access"
 
   
   container_definitions    = <<TASK_DEFINITION
@@ -79,6 +86,7 @@ TASK_DEFINITION
 
 
 
+# Create a ECS cluster ----------------------------------------------------------------
 
 resource "aws_ecs_cluster" "project_cluster" {
   name = "app_cluster"
@@ -92,6 +100,8 @@ resource "aws_subnet" "public" {
     Name = "Public"
   }
 }
+
+# Create a ECS service ----------------------------------------------------------------
 
 resource "aws_ecs_service" "aws_service" {
   name            = "application"

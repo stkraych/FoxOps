@@ -4,12 +4,19 @@ Final project for Telerik Academy
 
 ## Description
 
-Static application consisted of HTML, CSS and vanilla Javascript, which is built, tested, scan, format, containerized and deployed on public cloud of AWS. The backbone of the process is GitHub Actions.
+Static application consisted of HTML, CSS and vanilla Javascript, which is built, tested, scan, format, containerized and deployed on public cloud of AWS. The backbone of the process is GitHub Actions. It is connected with SonarCloud, Jira and Terraform cloud.
 
 Consist of 2 main GitHub Actions workflows:
 
 - Production -> triggered by the deployment of pre.requisite flow , deploys the application on AWS with terraform
 - Dev -> trigger by the deployment of feature branch - does not deploy on public cloud
+
+Secondary workflows:
+
+- scan-repository-daily - scheduled,scan the whole repo once a day for errors, smells, security vulnerabilities
+- destroy.prod.resources - destroy the resources, created from terraform after the deployment on prod, scheduled on 2 hours
+- pre.requisite - creates the backend for the production terraform resources, crates infrastructure for ECS
+- scan-pull-request - test and scan the repo on pull requests
 
 ## Used tools
 
@@ -22,9 +29,14 @@ Consist of 2 main GitHub Actions workflows:
 ## Project map
 
 ├── .editorconfig
+├── .frogbot/frobot-config.yml
 ├── .github
-│   └── workflows
+│   ├──workflows
 | ├── dev.workflow.yml
+| ├── pre.requisite.yml
+| ├── destroy.prod.resources.yml
+| ├──scan-repository-daily.yml
+| ├──scan-pull-request.yml
 │   └── prod.workflow.yml
 │── .markdownlint.json
 ├── dist/
@@ -37,17 +49,29 @@ Consist of 2 main GitHub Actions workflows:
 │ ├── init.js
 │ ├── logic.test.py
 │ └── GameRules.md
+├── terraform  
+│ ├── autoscalling/
+| ├── deploy/
+| └── pre-requisite/
 ├── .editorconfig
 ├── .eslintrc.json
 ├── docker-compose.yml
-├── Dockerfile
+├── .pre-commit.yml
 ├── package.json
 ├── package-lock.json
 ├── README.md
 ├── sonar-project.properties
-└── requirements.txt
+└── task-definition.json
 
 ## Project sketch
+
+Dev workflow
+
+![dev](https://github.com/stkraych/FoxOps/assets/131745030/50a3afed-827a-4b42-802e-850933c83171)
+
+Production workflow
+
+![prod](https://github.com/stkraych/FoxOps/assets/131745030/42f21060-e901-42cd-a112-ac2f10a5d6e2)
 
 ## Actions used
 
