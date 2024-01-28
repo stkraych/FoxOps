@@ -72,3 +72,5 @@ jobs:
         run: |
           terraform init -lock=false
           terraform destroy -lock=false -auto-approve  -var "DOCKERHUB_USERNAME=${{secrets.DOCKERHUB_USERNAME}}" -var "DOCKERHUB_PASSWORD=${{secrets.DOCKERHUB_PASSWORD}}" -var "DOCKERHUB_REPO=${{secrets.DOCKERHUB_REPO}}" -var "TAG=${{github.sha}}" -state=deploy/terraform.tfstate
+
+# this is a demo comment
