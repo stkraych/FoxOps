@@ -32,14 +32,5 @@ Artefact https://github.com/marketplace/actions/upload-a-build-artifact
 
 Nulll resources https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 
-The rest of the task 
-
-Create a pre-commit hook that safeguards for the following
-hardcoded secrets (gitleaks)
-yamllint
-check-merge-conflict https://github.com/pre-commit/pre-commit-hooks
-check-added-large-files https://github.com/pre-commit/pre-commit-hooks
-Setup docker-compose with build and run a container
-Try out GitHub Actions schedule trigger event - https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
 
 
