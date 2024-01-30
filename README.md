@@ -28,40 +28,7 @@ Secondary workflows:
 
 ## Project map
 
-├── .editorconfig
-├── .frogbot/frobot-config.yml
-├── .github
-│   ├──workflows
-| ├── dev.workflow.yml
-| ├── pre.requisite.yml
-| ├── destroy.prod.resources.yml
-| ├──scan-repository-daily.yml
-| ├──scan-pull-request.yml
-│   └── prod.workflow.yml
-│── .markdownlint.json
-├── dist/
-├── node_modules/
-├── .parcel-cache/
-├── Dockerfile
-├── src  
-│ ├── style.css
-│ ├── index.html
-│ ├── init.js
-│ ├── logic.test.py
-│ └── GameRules.md
-├── terraform  
-│ ├── autoscalling/
-| ├── deploy/
-| └── pre-requisite/
-├── .editorconfig
-├── .eslintrc.json
-├── docker-compose.yml
-├── .pre-commit.yml
-├── package.json
-├── package-lock.json
-├── README.md
-├── sonar-project.properties
-└── task-definition.json
+![Screenshot (355)](https://github.com/stkraych/FoxOps/assets/131745030/430d09f7-7e0e-4a68-9452-6d29afe25784)
 
 ## Project sketch
 
