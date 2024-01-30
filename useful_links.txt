@@ -32,27 +32,4 @@ Artefact https://github.com/marketplace/actions/upload-a-build-artifact
 
 Nulll resources https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource
 
-The rest of the task 
 
-Create a pre-commit hook that safeguards for the following
-hardcoded secrets (gitleaks)
-yamllint
-check-merge-conflict https://github.com/pre-commit/pre-commit-hooks
-check-added-large-files https://github.com/pre-commit/pre-commit-hooks
-Setup docker-compose with build and run a container
-Try out GitHub Actions schedule trigger event - https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-
-
-he browser. Here's how you can do it:
-
-SSH into the EC2 instance: Use the SSH connection details provided in your Terraform configuration to connect to the EC2 instance. You can use a terminal or SSH client to establish the connection. For example, you can run the following command in your terminal: ssh -i ~/.ssh/id_rsa ec2-user@<EC2_instance_public_ip>. Replace <EC2_instance_public_ip> with the actual public IP address of your EC2 instance.
-
-Access the running container: Once you are connected to the EC2 instance, you can use Docker commands to interact with the running container. For example, you can run docker ps to list the running containers and identify the container ID or name of your app's container.
-
-Connect to the container: To connect to the running container, you can use the docker exec command. For example, if your container ID is abcd1234, you can run docker exec -it abcd1234 /bin/bash to open a shell inside the container. This will allow you to execute commands and interact with the container's environment.
-
-Test the app in the browser: Once you are inside the container, you can navigate to the app's directory and start the necessary services. For example, if your app is running on a web server like Nginx or Apache, you can start the server and then access the app in the browser by entering the EC2 instance's public IP address followed by the appropriate port number. For example, if your app is running on port 80, you can enter http://<EC2_instance_public_ip>:80 in the browser to access the app.
-
-Remember to replace <EC2_instance_public_ip> with the actual public IP address of your EC2 instance.
-
-Please note that the specific commands and steps may vary depending on your app's setup and requirements. Make sure to adjust the commands accordingly based on your specific configuration.

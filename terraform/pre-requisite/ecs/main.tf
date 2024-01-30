@@ -55,7 +55,7 @@ resource "aws_ecs_task_definition" "service" {
   cpu                      = 1024
   memory                   = 2048
   network_mode             = "awsvpc"
-  execution_role_arn = "arn:aws:iam::155170927437:role/ecs_access"
+  execution_role_arn = "arn:aws:iam::063712744160:role/ecs_access"
 
   
   container_definitions    = <<TASK_DEFINITION
